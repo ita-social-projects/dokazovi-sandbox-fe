@@ -1,14 +1,15 @@
 # build environment
-FROM node:12.18.1 as build
+FROM node:14.17.3 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 ARG REACT_APP_BASE_URL
-ARG REACT_APP_GOOGLE_ID
 ARG REACT_APP_IMGUR_CLIENT_ID
 COPY package.json ./
+COPY ./yarn.lock ./
 RUN yarn install --immutable
 COPY . ./
-RUN npm run build
+RUN yarn cache clean --force
+RUN yarn build
 
 # production environment
 FROM nginx:stable-alpine

@@ -2,8 +2,8 @@ version: '3'
 
 services:
   api:
-    image: dokazovi_fe
-    container_name: dokazovi_fe
+    image: dokazovi_sb_fe
+    container_name: dokazovi_sb_fe
     ports:
       - '3000'
     logging:
