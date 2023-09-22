@@ -1,11 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import _ from 'lodash';
-import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
-import { RootStateType } from '../../models/rootReducer';
+import _ from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
+import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
+import { IEditorToolbarProps } from '../../components/Editor/types';
+import { langTokens } from '../../locales/localizationInit';
+import { selectAuthorities } from '../../models/authorities';
 import {
   resetDraft,
   setAuthorId,
@@ -21,14 +25,10 @@ import {
   setPostPreviewText,
   setPostTitle,
 } from '../../models/postCreation';
-import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
-import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
-import { PostCreationButtons } from './PostCreationButtons';
-import {
-  CreateTextPostRequestType,
-  ExpertResponseType,
-} from '../../old/lib/utilities/API/types';
-import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
+import { selectTextPostDraft } from '../../models/postCreation/selectors';
+import { RootStateType } from '../../models/rootReducer';
+import { selectCurrentUser } from '../../models/user';
+import { BorderBottom } from '../../old/lib/components/Border';
 import {
   CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
@@ -39,22 +39,22 @@ import {
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../old/lib/constants/editors';
+import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
+import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
+import {
+  CreateTextPostRequestType,
+  ExpertResponseType,
+} from '../../old/lib/utilities/API/types';
+import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import PostView from '../../old/modules/posts/components/PostView';
+import { useActions } from '../../shared/hooks';
 import { CarouselImagesWrapper } from './CarouselImagesWrapper';
-import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../components/Editor/types';
+import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
+import { PostCreationButtons } from './PostCreationButtons';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
-import { BorderBottom } from '../../old/lib/components/Border';
-import { fileSelectorHandler } from './fileSelectorHandler';
-import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
-import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
-import { selectCurrentUser } from '../../models/user';
-import { selectTextPostDraft } from '../../models/postCreation/selectors';
-import { useActions } from '../../shared/hooks';
-import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from './RequiredFieldsStyle';
-import { selectAuthorities } from '../../models/authorities';
+import { fileSelectorHandler } from './fileSelectorHandler';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -291,7 +291,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
-    const response = await createPost(newPost);
+    const response = await createPost({ ...newPost, postStatus: 2 });
     boundResetDraft(postType.type);
     history.push(`/posts/${response.data.id}`);
   };

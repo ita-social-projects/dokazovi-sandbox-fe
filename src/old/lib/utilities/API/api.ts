@@ -238,7 +238,7 @@ export const getOrigins = async (): Promise<
 };
 
 export const createPost = async (
-  requestBody: CreatePostRequestUnionType,
+  requestBody: CreatePostRequestUnionType & { postStatus: number },
 ): Promise<AxiosResponse<PostResponseType>> => {
   return instance.post(`/post`, requestBody);
 };

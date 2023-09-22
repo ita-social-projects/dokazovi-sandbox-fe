@@ -3,6 +3,7 @@ import { Container } from '@material-ui/core';
 import { useStyles } from './styles/OperationView.styles';
 import { IProfileMenuOption } from '../../old/lib/types';
 import { PasswordChangeView } from './PasswordChangeView';
+import { MaterialsViewWrapper } from './MaterialsView/MaterialsViewWrapper';
 
 interface IOperationViewProps {
   selectedOption: IProfileMenuOption | Record<string, never>;
@@ -15,7 +16,7 @@ export const OperationView: React.FC<IOperationViewProps> = (props) => {
 
   const operationViews = {
     info: <div>Info</div>,
-    materials: <div>Materials</div>,
+    materials: <MaterialsViewWrapper />,
     passwordChange: <PasswordChangeView />,
     mail: <div>Mail</div>,
   };
