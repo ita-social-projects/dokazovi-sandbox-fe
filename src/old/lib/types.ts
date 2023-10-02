@@ -220,7 +220,7 @@ export interface IAuthInputs {
   password: string;
 }
 
-export type ProfileMenuType = 'info' | 'materials' | 'passwordChange' | 'mail';
+export type ProfileMenuType = 'info' | 'passwordChange' | 'mail';
 
 export interface IProfileMenuOption {
   label: string;
@@ -232,7 +232,7 @@ export interface IFooterStyleProps {
   isProfilePage: boolean;
 }
 
-export type AdminMenuType = 'important';
+export type AdminMenuType = 'important' | 'materials';
 
 export interface IAdminMenuOption {
   section: string;

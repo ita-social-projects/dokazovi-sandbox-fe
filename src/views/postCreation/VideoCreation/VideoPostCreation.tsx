@@ -1,40 +1,29 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
+import _ from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUrlInputModal';
+import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
+import { IEditorToolbarProps } from '../../../components/Editor/types';
 import {
+  resetDraft,
+  selectVideoPostDraft,
+  selectVideoUrl,
+  setAuthorId,
+  setAuthorsDetails,
+  setAuthorsName,
+  setPostBody,
   setPostDirections,
   setPostOrigin,
-  setPostTitle,
-  setAuthorsName,
-  setAuthorsDetails,
-  setPostBody,
-  setVideoUrl,
-  selectVideoUrl,
-  setPostPreviewText,
   setPostPreviewManuallyChanged,
-  resetDraft,
-  setAuthorId,
-  selectVideoPostDraft,
+  setPostPreviewText,
+  setPostTitle,
+  setVideoUrl,
 } from '../../../models/postCreation';
-import {
-  IDirection,
-  IPost,
-  IOrigin,
-  PostTypeEnum,
-} from '../../../old/lib/types';
-import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
-import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
-import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUrlInputModal';
-import { PostCreationButtons } from '../PostCreationButtons';
-import {
-  CreateVideoPostRequestType,
-  ExpertResponseType,
-} from '../../../old/lib/utilities/API/types';
-import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
+import { BorderBottom } from '../../../old/lib/components/Border';
 import {
   CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
@@ -45,19 +34,30 @@ import {
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
+import {
+  IDirection,
+  IOrigin,
+  IPost,
+  PostTypeEnum,
+} from '../../../old/lib/types';
+import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
+import {
+  CreateVideoPostRequestType,
+  ExpertResponseType,
+} from '../../../old/lib/utilities/API/types';
+import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
+import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
 import PostView from '../../../old/modules/posts/components/PostView';
-import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../components/Editor/types';
+import { PostAuthorSelection } from '../PostAuthorSelection/PostAuthorSelection';
+import { PostCreationButtons } from '../PostCreationButtons';
 import { PostDirectionsSelector } from '../PostDirectionsSelector';
 import { PostOriginsSelector } from '../PostOriginsSelector';
-import { BorderBottom } from '../../../old/lib/components/Border';
-import { PostAuthorSelection } from '../PostAuthorSelection/PostAuthorSelection';
 
+import { langTokens } from '../../../locales/localizationInit';
+import { selectAuthorities } from '../../../models/authorities';
 import { selectCurrentUser } from '../../../models/user';
 import { useActions } from '../../../shared/hooks';
-import { langTokens } from '../../../locales/localizationInit';
 import { useStyle } from '../RequiredFieldsStyle';
-import { selectAuthorities } from '../../../models/authorities';
 
 interface IVideoPostCreationProps {
   pageTitle?: string;
@@ -269,7 +269,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
-    const response = await createPost(newPost);
+    const response = await createPost({ ...newPost, postStatus: 2 });
     boundResetDraft(PostTypeEnum.VIDEO);
     history.push(`/posts/${response.data.id}`);
   };
