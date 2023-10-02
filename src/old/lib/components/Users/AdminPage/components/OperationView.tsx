@@ -1,10 +1,11 @@
-import React from 'react';
 import { Container, Typography } from '@material-ui/core';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import ImportantView from './ImportantView';
-import { useStyles } from '../styles/OperationView.styles';
-import { IAdminMenuOption } from '../../../../types';
+import { MaterialsViewWrapper } from 'views/Profile/MaterialsView/MaterialsViewWrapper';
 import { langTokens } from '../../../../../../locales/localizationInit';
+import { IAdminMenuOption } from '../../../../types';
+import { useStyles } from '../styles/OperationView.styles';
+import ImportantView from './ImportantView';
 
 interface IOperationViewProps {
   selectedOption: IAdminMenuOption | Record<string, never>;
@@ -26,7 +27,17 @@ const OperationView: React.FC<IOperationViewProps> = (props) => {
           <ImportantView />
         </>
       );
-
+      return operationView;
+    }
+    if (value === 'materials') {
+      const operationView = (
+        <>
+          <Typography component="h2" className="menuTitle">
+            {t(langTokens.admin.selectedImportantMaterials)}
+          </Typography>
+          <MaterialsViewWrapper />
+        </>
+      );
       return operationView;
     }
 

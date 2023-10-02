@@ -22,6 +22,14 @@ const adminMenuOptions: IAdminMenuOption[] = [
   },
 ];
 
+const adminMenuOptions2: IAdminMenuOption[] = [
+  {
+    section: 'Матеріали',
+    label: 'Керування матеріалами',
+    value: 'materials',
+  },
+];
+
 const Sidemenu: React.FC<ISidemenuProps> = (props) => {
   const { selectedOption, changeOption } = props;
   const classes = useStyles();
@@ -53,6 +61,21 @@ const Sidemenu: React.FC<ISidemenuProps> = (props) => {
             onClick={() => changeOption(option)}
           >
             <ListItemText primary={option.label} />
+          </ListItem>
+        ))}
+      </List>
+      <Typography component="span" className={classes.menuCategory}>
+        Матеріали
+      </Typography>
+      <List>
+        {adminMenuOptions2.map((option) => (
+          <ListItem
+            button
+            key={option.value}
+            selected={option.value === selectedOption.value}
+            onClick={() => changeOption(option)}
+          >
+            <ListItemText primary="Керування матеріалами" />
           </ListItem>
         ))}
       </List>

@@ -1,8 +1,8 @@
-import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import React from 'react';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { IProfileMenuOption } from '../../old/lib/types';
 import { useStyles } from './styles/Sidemenu.styles';
@@ -18,10 +18,6 @@ const profileMenuOptions: IProfileMenuOption[] = [
   {
     label: i18n.t(langTokens.common.myInfo),
     value: 'info',
-  },
-  {
-    label: i18n.t(langTokens.common.materials),
-    value: 'materials',
   },
   {
     label: i18n.t(langTokens.common.passwordChange),
