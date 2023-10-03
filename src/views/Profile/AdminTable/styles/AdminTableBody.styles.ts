@@ -2,8 +2,6 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   titleCol: {
-    width: theme.spacing(44),
-    maxWidth: theme.spacing(44),
     overflowX: 'hidden',
     '& .MuiChip-root': {
       borderRadius: 0,
@@ -26,5 +24,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   post: {
     backgroundColor: '#a3c9ad',
+  },
+  title: {
+    width: '320px',
+    wordWrap: 'break-word',
   },
 }));

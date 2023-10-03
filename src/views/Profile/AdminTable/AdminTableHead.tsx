@@ -105,7 +105,12 @@ const AdminTableHead: React.FC = () => {
         placement="right"
         classes={{ tooltip: classes.tooltip }}
       >
-        <TableCell sortDirection={sortBy === sortKey ? order : false}>
+        <TableCell
+          sortDirection={sortBy === sortKey ? order : false}
+          className={
+            label === i18n.t(langTokens.admin.title) ? classes.titleCell : ''
+          }
+        >
           {isSortable ? (
             <TableSortLabel
               active={sortBy === sortKey}
